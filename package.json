@@ -1,0 +1,42 @@
+{
+  "name": "homeaway-sdk",
+  "version": "1.0.0",
+  "description": "HomeAway SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "hsapi.js",
+    "isilink.js",
+    "lib"
+  ],
+  "engines": {
+    "node": ">=8.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swarming/homeaway-sdk-js.git"
+  },
+  "keywords": [
+    "HomeAway",
+    "HSAPI",
+    "ISILink"
+  ],
+  "author": "Swarming Technology",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/swarming/homeaway-sdk-js/issues"
+  },
+  "homepage": "https://github.com/swarming/homeaway-sdk-js#readme",
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.16.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.0.0"
+  }
+}
