@@ -11,17 +11,17 @@ class HsApi {
 
   constructor(config = {}) {
 
-    this.jwt = null;
+    this.authToken = null;
     this.id = config.id || process.env.HSAPI_ID;
     this.secret = config.secret || process.env.HSAPI_SECRET;
-    this.coid = config.coid || process.env.HOMEAWAY_COID;
+    this.pmcid = config.pmcid || config.coid || process.env.HOMEAWAY_PMCID || process.env.HOMEAWAY_COID;
 
     const version = config.version || process.env.HSAPI_VERSION || VERSION;
     const endsystem = config.endsystem || process.env.HSAPI_ENDSYSTEM || ENDSYSTEM;
 
     this.req = request.defaults({
       baseUrl: URL,
-      auth: { bearer: () => this.jwt },
+      auth: { bearer: () => this.authToken },
       headers: {
         'x-homeaway-hasp-api-version': version,
         'x-homeaway-hasp-api-endsystem': endsystem,
@@ -49,12 +49,12 @@ class HsApi {
       url: '/auth/token',
       auth: {
         user: this.id,
-        secret: this.secret,
+        pass: this.secret,
       },
       json: true,
     });
 
-    this.jwt = body.encodedId;
+    this.authToken = body.encodedId;
 
     return body;
   }
@@ -63,7 +63,7 @@ class HsApi {
     try {
       return await this.req(config);
     } catch (reason) {
-      // Automatically re-authenticate when JWT expires.
+      // Automatically re-authenticate when authToken expires.
       if ('401' === '' + reason.statusCode) {
         await this.auth();
         return await this.req(config);
@@ -75,6 +75,23 @@ class HsApi {
   async listPropertyManagementCompanies() {
     return await this.request({
       url: '/ListPmcs',
+    });
+  }
+
+  async getUnitById({ id, pmcid = this.pmcid }) {
+    return await this.request({
+      url: '/GetUnitById',
+      headers: { id, pmcid },
+    });
+  }
+
+  async getUnitNonAvailability({ id, pmcid = this.pmcid, startDate, endDate }) {
+    return await this.request({
+      method: 'POST',
+      url: '/GetUnitNonAvailability',
+      body: {
+        dateRange: { startDate, endDate },
+      },
     });
   }
 
