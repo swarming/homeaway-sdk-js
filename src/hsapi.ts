@@ -43,13 +43,20 @@ export default class HsApi {
   constructor(config: IHsApiOptions | null) {
 
     this.authToken = null;
-    this.id = (config && config.id) || process.env.HSAPI_ID;
-    this.secret = (config && config.secret) || process.env.HSAPI_SECRET;
-    this.pmcid = (config && config.pmcid) || process.env.HOMEAWAY_PMCID || process.env.HOMEAWAY_COID;
 
-    if (!this.id) throw new Error('Invalid HSAPI id');
-    if (!this.secret) throw new Error('Invalid HSAPI secret');
-    if (!this.pmcid) throw new Error('Invalid HSAPI PMCID');
+    if (config) {
+      this.id = config.id;
+      this.secret = config.secret;
+      this.pmcid = config.pmcid;
+    } else {
+      this.id = process.env.HSAPI_ID;
+      this.secret = process.env.HSAPI_SECRET;
+      this.pmcid = process.env.HSAPI_PMCID;
+    }
+
+    if (!this.id) throw new Error('Missing HSAPI ID');
+    if (!this.secret) throw new Error('Missing HSAPI Secret');
+    if (!this.pmcid) throw new Error('Missing HSAPI PMCID');
 
     const version: string = (config && config.version) || process.env.HSAPI_VERSION || VERSION;
     const endsystem: string = (config && config.endsystem) || process.env.HSAPI_ENDSYSTEM || ENDSYSTEM;
@@ -73,8 +80,8 @@ export default class HsApi {
       this.secret = config.secret;
     }
 
-    if (!this.id) throw new Error('Invalid HSAPI id');
-    if (!this.secret) throw new Error('Invalid HSAPI secret');
+    if (!this.id) throw new Error('Missing HSAPI ID');
+    if (!this.secret) throw new Error('Missing HSAPI Secret');
 
     const body = await request({
       method: 'GET',
@@ -132,8 +139,11 @@ export default class HsApi {
       method: 'POST',
       url: '/GetUnitNonAvailability',
       body: {
-        dateRange: { startDate, endDate },
         ...rest,
+        dateRange: {
+          startDate: moment(startDate).format('YYYY-MM-DD'),
+          endDate: moment(endDate).format('YYYY-MM-DD'),
+        },
       },
     });
   }

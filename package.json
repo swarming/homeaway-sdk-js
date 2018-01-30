@@ -7,8 +7,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "env-cmd ./test/.env mocha",
-    "cover": "istanbul cover _mocha ",
+    "test": "env-cmd ./test/.env mocha --timeout 5000",
+    "cover": "env-cmd ./test/.env istanbul cover _mocha -- --timeout 5000",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "engines": {
@@ -32,12 +32,15 @@
   "dependencies": {
     "moment": "^2.20.1",
     "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "soap": "^0.23.0"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.20",
     "@types/moment": "^2.13.0",
     "@types/request": "^2.47.0",
     "@types/request-promise": "^4.1.41",
+    "@types/soap": "^0.21.0",
     "chai": "^4.1.2",
     "chai-json-schema-ajv": "^2.0.0",
     "env-cmd": "^7.0.0",
