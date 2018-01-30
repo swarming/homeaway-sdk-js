@@ -2,15 +2,15 @@
   "name": "homeaway-sdk",
   "version": "1.0.0",
   "description": "HomeAway SDK",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "type": "dist/index.d.ts",
   "scripts": {
-    "test": "env-cmd ./test/.env mocha"
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "env-cmd ./test/.env mocha",
+    "cover": "istanbul cover _mocha ",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
-  "files": [
-    "hsapi.js",
-    "isilink.js",
-    "lib"
-  ],
   "engines": {
     "node": ">=8.4"
   },
@@ -30,15 +30,22 @@
   },
   "homepage": "https://github.com/swarming/homeaway-sdk-js#readme",
   "dependencies": {
+    "moment": "^2.20.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
+    "@types/moment": "^2.13.0",
+    "@types/request": "^2.47.0",
+    "@types/request-promise": "^4.1.41",
     "chai": "^4.1.2",
     "chai-json-schema-ajv": "^2.0.0",
     "env-cmd": "^7.0.0",
     "eslint": "^4.16.0",
     "istanbul": "^0.4.5",
-    "mocha": "^5.0.0"
+    "mocha": "^5.0.0",
+    "tslint": "^5.9.1",
+    "tslint-eslint-rules": "^4.1.1",
+    "typescript": "^2.6.2"
   }
 }

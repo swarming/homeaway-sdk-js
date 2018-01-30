@@ -1,7 +1,8 @@
 'use strict';
 
 const { expect, assert } = require('chai').use(require('chai-json-schema-ajv'));
-const { HsApi, IsiLink } = require('../');
+const moment = require('moment');
+const { HsApi, IsiLink } = require('../dist');
 
 describe('HomeAway SDK', function () {
 
@@ -57,13 +58,31 @@ describe('HomeAway SDK', function () {
 
     });
 
-    describe('.getUnitById()', function () {
+    describe.skip('.getUnitById()', function () {
 
       it('should return a unit by id', async () => {
 
         const hs = new HsApi();
-        const response = await hs.getUnitById({});
+        const response = await hs.getUnitById({ id: '1' });
         console.log(response);
+
+      });
+
+    });
+
+    describe.skip('.getUnitNonAvailability()', function () {
+
+      it('should return a date range', async () => {
+
+        const hs = new HsApi();
+        const response = await hs.getUnitNonAvailability({
+          startDate: new Date('2018-01-01'),
+          endDate: new Date('2018-06-01'),
+        });
+        expect(response).to.be.jsonSchema({
+          title: 'Unit Non-Availability',
+          type: 'array',
+        });
 
       });
 
