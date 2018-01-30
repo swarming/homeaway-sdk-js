@@ -127,7 +127,7 @@ export default class HsApi {
 
     return await this.request({
       url: '/GetUnitById',
-      headers: { id: config.id },
+      qs: { id: config.id },
     });
   }
 

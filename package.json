@@ -7,8 +7,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "env-cmd ./test/.env mocha --timeout 5000",
-    "cover": "env-cmd ./test/.env istanbul cover _mocha -- --timeout 5000",
+    "test": "env-cmd ./test/.env mocha --timeout 15000",
+    "cover": "env-cmd ./test/.env istanbul cover _mocha -- --timeout 15000",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "engines": {

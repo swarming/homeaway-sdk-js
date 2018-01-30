@@ -31,6 +31,19 @@ export interface IChangeLogInfo {
   strChangeLog: string;
 }
 
+export interface IGetPropertyAvailabilityInfoArgs {
+  id: string; // property id
+}
+
+export interface IGetReservationChangeLogArgs {
+  id: string; // property id
+  minutes: number;
+}
+
+export interface IGetPropertyDescArgs {
+  id: string; // property id
+}
+
 
 export default class IsiLink {
 
@@ -80,12 +93,58 @@ export default class IsiLink {
     return get(result, 'getChangeLogInfoResult.anyType', []);
   }
 
+  public async getPropertyAvailabilityInfo(args: IGetPropertyAvailabilityInfoArgs) {
+
+    const client = await this.$client;
+    // @ts-ignore
+    const result = await client.getPropertyAvailabilityInfoAsync({
+      strCOID: this.coid,
+      strUserId: this.userid,
+      strPassword: this.password,
+      strPropID: args.id,
+    });
+
+    return get(result, 'getPropertyAvailabilityInfoResult.clsNonAvailDates', []);
+  }
+
+  public async getReservationChangeLog(args: IGetReservationChangeLogArgs) {
+
+    const client = await this.$client;
+    // @ts-ignore
+    const result = await client.getReservationChangeLogAsync({
+      strCOID: this.coid,
+      strUserId: this.userid,
+      strPassword: this.password,
+      strPropID: args.id,
+      intMinutes: args.minutes,
+      strOptions: 'ALL',
+      intMaxRows: 500,
+    });
+
+    return get(result, 'getReservationChangeLogResult.clsResChangeLogInfo', []);
+  }
+
+  public async getPropertyDesc(args: IGetPropertyDescArgs) {
+
+    const client = await this.$client;
+    // @ts-ignore
+    const result = await client.getPropertyDescAsync({
+      strCOID: this.coid,
+      strUserId: this.userid,
+      strPassword: this.password,
+      strPropId: args.id,
+      blnSendNonAvail: false,
+    });
+
+    return get(result, 'getPropertyDescResult.clsProperty[0]');
+  }
+
 }
 
 // ----------------
 // Helper Functions
 
-function get(obj: object, path: string, def: any) {
+function get(obj: object, path: string, def?: any) {
 
   const fullPath = path
     .replace(/\[/g, '.')
