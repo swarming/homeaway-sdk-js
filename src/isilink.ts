@@ -139,6 +139,20 @@ export default class IsiLink {
     return get(result, 'getPropertyDescResult.clsProperty[0]');
   }
 
+  public async getPropertyIndexes() {
+
+    const client = await this.$client;
+    // @ts-ignore
+    const result = await client.getPropertyIndexesAsync({
+      strCOID: this.coid,
+      strUserId: this.userid,
+      strPassword: this.password,
+    });
+
+    return get(result, 'getPropertyIndexesResult.clsPropIndex');
+  }
+
+
 }
 
 // ----------------

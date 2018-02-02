@@ -202,7 +202,6 @@ describe('HomeAway SDK', function () {
     });
 
     describe('.getPropertyDesc()', function () {
-      this.timeout(9000);
 
       it('should return property description with non-availability info', async () => {
 
@@ -216,6 +215,20 @@ describe('HomeAway SDK', function () {
       });
 
     });
+
+    describe('.getPropertyIndexes()', function () {
+
+      it('should return a list of all property ids and names', async () => {
+
+        const isilink = new IsiLink();
+        const result = await isilink.getPropertyIndexes();
+
+        console.log('.getPropertyIndexes() => ', result);
+
+      });
+
+    });
+
 
   });
 
